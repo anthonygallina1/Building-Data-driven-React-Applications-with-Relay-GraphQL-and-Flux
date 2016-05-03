@@ -1,11 +1,22 @@
-'strict';
-var express = require('express');
+'use strict';
+var express = require('express'),
+    mongo = require('mongodb').MongoClient;
 
-var app= express();
+var app = express();
 
-app.use(express.static('public'));
+mongo.connect('mongodb://anthonygallina1-data_driven_api-3081529', function (err, db) {
 
-//  app.get('/', (req, res) => res.send('Hello express'));
+    if (err) {
+        throw new Error('Database failed to connect!');
+    } else {
+        console.log('MongoDB successfully connected on port 27017.');
+    }
+
+    app.use(express.static('public'));
 
 
-app.listen(8080);
+    app.listen(8080, function () {
+        console.log('Listening on port 8080...');
+    });
+
+});
