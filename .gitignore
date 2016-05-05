@@ -1,0 +1,5 @@
+data/
+*.log
+mongod
+.env
+node_modules/
