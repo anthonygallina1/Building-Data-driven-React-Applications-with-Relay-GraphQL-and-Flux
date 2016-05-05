@@ -20,13 +20,13 @@ mongo.connect(process.env['MONGO_URI'], function (err, db) {
 
     // Handle route /json
     app.get('/json', function (req, res, next) {
-         db.collection('links').find().toArray(function(err, docs) {
+         db.collection('links').find().toArray(function(err, links) {
           if (err) {
             next(err);
           } else {
-            console.log(docs);
+            console.log(links);
             
-            res.json(docs);
+            res.json(links);
           }
         });
     });
