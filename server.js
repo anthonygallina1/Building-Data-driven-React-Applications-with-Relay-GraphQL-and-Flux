@@ -1,10 +1,11 @@
 'use strict';
-var express = require('express'),
+require('dotenv').config();
+
+   var express = require('express'),
     mongo = require('mongodb').MongoClient;
+   var app = express();
 
-var app = express();
-
-mongo.connect('mongodb://anthonygallina1-data_driven_api-3081529', function (err, db) {
+mongo.connect(process.env['MONGO_URI'], function (err, db) {
 
     if (err) {
         throw new Error('Database failed to connect!');
@@ -13,10 +14,26 @@ mongo.connect('mongodb://anthonygallina1-data_driven_api-3081529', function (err
     }
 
     app.use(express.static('public'));
+    
 
 
-    app.listen(8080, function () {
+
+    // Handle route /json
+    app.get('/json', function (req, res, next) {
+         db.collection('links').find().toArray(function(err, docs) {
+          if (err) {
+            next(err);
+          } else {
+            console.log(docs);
+            
+            res.json(docs);
+          }
+        });
+    });
+
+    app.listen(process.env.PORT, function () {
         console.log('Listening on port 8080...');
     });
 
 });
+ 
